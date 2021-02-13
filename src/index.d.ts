@@ -1,8 +1,8 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
+import { NowRequest, NowResponse } from "@vercel/node";
 
-interface ValidateRequest extends VercelRequest {}
+interface ValidateRequest extends NowRequest {}
 
-interface ValidateResponse<T> extends VercelResponse {
+interface ValidateResponse<T> extends NowResponse {
   sendStatus?: (code?: number, message?: string) => void;
 }
 
