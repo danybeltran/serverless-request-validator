@@ -1,0 +1,82 @@
+const RequestMethods = [
+  "get",
+  "post",
+  "put",
+  "delete",
+  "head",
+  "connect",
+  "options",
+  "trace",
+  "patch",
+];
+/**
+ * @type { import("./src/index").IValidate }
+ */
+const Validate = (handlers) => {
+  /**
+   * @type { import("./src").RequestValidatorHandlerType }
+   */
+  const validateResponseCallback = function (req, res) {
+    const _handlers = { ...handlers };
+    /**
+     * @type { import("./src").ValidateResponse<any> }
+     */
+    const vResponse = {
+      ...res,
+      sendStatus: (code, message = "") => {
+        res.status(code).send(message);
+      },
+    };
+    try {
+      RequestMethods.forEach((requestMethod) => {
+        if (!handlers[requestMethod]) {
+          /**
+           * @type { import("./src").RequestValidatorHandlerType }
+           */
+          const invalidMethodCb = (req, res) => {
+            res
+              .status(405)
+              .send(`Cannot ${requestMethod.toUpperCase()} ${req.url}`);
+          };
+          _handlers[requestMethod] = invalidMethodCb;
+        }
+      });
+      return _handlers[req.method.toLowerCase()](req, vResponse);
+    } catch (err) {
+      res.send("An error ocurred");
+      throw err;
+    }
+  };
+  return validateResponseCallback;
+};
+RequestMethods.forEach((requestMethod) => {
+  Validate[requestMethod] = (
+    /**
+     * @type { import("./src").RequestValidatorHandlerType }
+     */
+    handler
+  ) => {
+    /**
+     * @type { import("./src").RequestValidatorHandlerType }
+     */
+    const responseCb = (req, res) => {
+      const { method } = req;
+      const vResponse = {
+        ...res,
+        sendStatus: (code, message = "") => {
+          res.status(code).send(message);
+        },
+      };
+      if (method.toLowerCase() === requestMethod) {
+        handler(req, vResponse);
+      } else {
+        vResponse.sendStatus(405, `Cannot ${method} ${req.url}`);
+      }
+    };
+    return responseCb;
+  };
+});
+
+exports.RequestMethods = RequestMethods;
+exports.Validate = Validate;
+module.exports = { Validate };

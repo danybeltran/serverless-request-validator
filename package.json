@@ -1,0 +1,24 @@
+{
+  "name": "serverless-request-validator",
+  "author": "Dany Beltran",
+  "version": "1.0.0",
+  "description": "Validates requests made to a Vercel serverless application in an Express-like way",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "vercel": "^21.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danybeltran/serverless-request-validator.git"
+  },
+  "keywords": [
+    "vercel",
+    "serverless",
+    "serverless-validation"
+  ],
+  "bugs": {
+    "url": "https://github.com/danybeltran/serverless-request-validator/issues"
+  },
+  "homepage": "https://github.com/danybeltran/serverless-request-validator#readme"
+}
