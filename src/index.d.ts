@@ -4,6 +4,7 @@ interface ValidateRequest extends NowRequest {}
 
 interface ValidateResponse<T> extends NowResponse {
   sendStatus?: (code?: number, message?: string) => void;
+  sendFile?: (url?: string) => void;
 }
 
 /** Request handler */

@@ -3,7 +3,9 @@ import {
   IValidate,
   ValidateResponse,
 } from "../src";
-
+import { lookup } from "mime-types";
+import fs from "fs";
+import path from "path";
 export const RequestMethods = [
   "get",
   "post",
@@ -26,6 +28,19 @@ export const Validate: IValidate = (handlers) => {
       ...res,
       sendStatus: (code, message = "") => {
         res.status(code).send(message);
+      },
+      sendFile: (url = "") => {
+        const pth = path.join(__dirname, `../../${url}`);
+        const fileHeadType = lookup(pth);
+        if (fileHeadType) {
+          res.writeHead(200, {
+            "Content-Type": fileHeadType.toString(),
+          });
+          const rs = fs.createReadStream(pth);
+          rs.pipe(res);
+        } else {
+          res.status(404).send("Not found");
+        }
       },
     } as ValidateResponse<any>;
     try {
@@ -55,6 +70,19 @@ RequestMethods.forEach((requestMethod) => {
         ...res,
         sendStatus: (code, message = "") => {
           res.status(code).send(message);
+        },
+        sendFile: (url = "") => {
+          const pth = path.join(__dirname, `../../${url}`);
+          const fileHeadType = lookup(pth);
+          if (fileHeadType) {
+            res.writeHead(200, {
+              "Content-Type": fileHeadType.toString(),
+            });
+            const rs = fs.createReadStream(pth);
+            rs.pipe(res);
+          } else {
+            res.status(404).send("Not found");
+          }
         },
       } as ValidateResponse<any>;
       if (method.toLowerCase() === requestMethod) {

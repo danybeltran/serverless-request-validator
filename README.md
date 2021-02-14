@@ -113,4 +113,20 @@ export default Validate({
 > In this case, this function will handle `GET`,`POST` and `PUT` methods sent to it.
 > As in the previous example, other methods different that the allowed ones will send a `405` status code and the message saying the method can't be used in that url.
 
+#### Sending files
+
+It is possible to use the `sendFile()` method available
+
+```ts
+// /api/index.ts
+import { Validate } = from "serverless-request-validator/ts";
+
+// GET, POST and PUT are allowed
+export default Validate.get((req,res)=>{
+  res.sendFile("../src/cat.png")
+})
+```
+> If a file doesn't exist, a 404 status code will be sent to the user
+
+
 That's basically it, hopefuly it makes it easier to have different reponses for different methods=)

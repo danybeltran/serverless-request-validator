@@ -9,6 +9,9 @@ const RequestMethods = [
   "trace",
   "patch",
 ];
+const { lookup } = require("mime-types");
+const fs = require("fs");
+const path = require("path");
 /**
  * @type { import("./src/index").IValidate }
  */
@@ -65,6 +68,19 @@ RequestMethods.forEach((requestMethod) => {
         ...res,
         sendStatus: (code, message = "") => {
           res.status(code).send(message);
+        },
+        sendFile: (url = "") => {
+          const pth = path.join(__dirname, `../../${url}`);
+          const fileHeadType = lookup(pth);
+          if (fileHeadType) {
+            res.writeHead(200, {
+              "Content-Type": fileHeadType.toString(),
+            });
+            const rs = fs.createReadStream(pth);
+            rs.pipe(res);
+          } else {
+            res.status(404).send("Not found");
+          }
         },
       };
       if (method.toLowerCase() === requestMethod) {
