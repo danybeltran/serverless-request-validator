@@ -30,7 +30,7 @@ export const Validate: IValidate = (handlers) => {
         res.status(code).send(message);
       },
       sendFile: (url = "") => {
-        const pth = path.join(__dirname, `../../${url}`);
+        const pth = path.join(__dirname, `../${url}`);
         const fileHeadType = lookup(pth);
         if (fileHeadType) {
           res.writeHead(200, {
@@ -72,7 +72,7 @@ RequestMethods.forEach((requestMethod) => {
           res.status(code).send(message);
         },
         sendFile: (url = "") => {
-          const pth = path.join(__dirname, `../../${url}`);
+          const pth = path.join(__dirname, `../${url}`);
           const fileHeadType = lookup(pth);
           if (fileHeadType) {
             res.writeHead(200, {

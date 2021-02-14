@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "vercel": "^21.2.3",
+    "@vercel/node": "^1.8.4",
     "mime-types": "^2.1.28"
   },
   "repository": {
