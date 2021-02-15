@@ -120,10 +120,10 @@ It is possible to use the `sendFile()` method available
 ```ts
 // /api/index.ts
 import Validate from "serverless-request-validator";
+import path from "path"
 
-// GET, POST and PUT are allowed
 export default Validate.get((req,res)=>{
-  res.sendFile("../src/cat.png")
+  res.sendFile(path.resolve(__dirname,"../src/cat.png"))
 })
 ```
 > If a file doesn't exist, a 404 status code will be sent to the user

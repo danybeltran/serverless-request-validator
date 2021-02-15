@@ -1,7 +1,7 @@
 {
   "name": "serverless-request-validator",
   "author": "Dany Beltran",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Validates requests made to a Vercel serverless application in an Express-like way",
   "main": "index.js",
   "license": "MIT",
