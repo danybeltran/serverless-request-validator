@@ -1,4 +1,5 @@
-export const RequestMethods = [
+/// <reference types="./src/index"/>
+const RequestMethods = [
   "get",
   "post",
   "put",
@@ -9,19 +10,19 @@ export const RequestMethods = [
   "trace",
   "patch",
 ];
-import { lookup } from "mime-types";
-import fs from "fs";
+const { lookup } = require("mime-types");
+const fs = require("fs");
 /**
- * @type { import("./src/index").IValidate }
+ * @type { import("serverless-request-validator/src").IValidate }
  */
-export const Validate = (handlers) => {
+const Validate = (handlers) => {
   /**
-   * @type { import("./src").RequestValidatorHandlerType }
+   * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
    */
   const validateResponseCallback = function (req, res) {
     const _handlers = { ...handlers };
     /**
-     * @type { import("./src").ValidateResponse<any> }
+     * @type { import("serverless-request-validator/src").ValidateResponse<any> }
      */
     const vResponse = {
       ...res,
@@ -49,7 +50,7 @@ export const Validate = (handlers) => {
       RequestMethods.forEach((requestMethod) => {
         if (!handlers[requestMethod]) {
           /**
-           * @type { import("./src").RequestValidatorHandlerType }
+           * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
            */
           const invalidMethodCb = (req, res) => {
             res
@@ -70,12 +71,12 @@ export const Validate = (handlers) => {
 RequestMethods.forEach((requestMethod) => {
   Validate[requestMethod] = (
     /**
-     * @type { import("./src").RequestValidatorHandlerType }
+     * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
      */
     handler
   ) => {
     /**
-     * @type { import("./src").RequestValidatorHandlerType }
+     * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
      */
     const responseCb = (req, res) => {
       const { method } = req;
@@ -110,5 +111,6 @@ RequestMethods.forEach((requestMethod) => {
     return responseCb;
   };
 });
-
-export default Validate;
+exports.RequestMethods = RequestMethods;
+exports.Validate = Validate;
+module.exports = Validate;

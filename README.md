@@ -23,7 +23,7 @@ const { Validate } = require("serverless-request-validator");
 With Typescript:
 
 ```ts
-import { Validate } from "serverless-request-validator/ts";
+import { Validate } from "serverless-request-validator";
 ```
 
 <br/>
@@ -38,7 +38,7 @@ For example:
 
 ```js
 // /api/index.js
-const { Validate } = require("serverless-request-validator")
+const Validate = require("serverless-request-validator")
 
 // Only HTTP `GET` is allowed
 module.exports = Validator.get((req, res)=>{
@@ -51,10 +51,10 @@ module.exports = Validator.get((req, res)=>{
 
 ```ts
 // /api/index.ts
-import { Validator } = from "serverless-request-validator/ts";
+import Validate from "serverless-request-validator";
 
 // Only HTTP `GET` is allowed
-export default Validator.get((req, res)=>{
+export default Validate.get((req, res)=>{
     res.send("get request")
 })
 
@@ -72,10 +72,10 @@ This makes it possible for an endpoint to handle requests of different methods. 
 
 ```js
 // /api/index.js
-const { Validate } = require("serverless-request-validator")
+const Validate = require("serverless-request-validator")
 
 // GET, POST and PUT are allowed.
-module.exports = Validator({
+module.exports = Validate({
   get(req, res) {
     res.send("a get request");
   },
@@ -93,7 +93,7 @@ module.exports = Validator({
 
 ```ts
 // /api/index.ts
-import { Validate } = from "serverless-request-validator/ts";
+import Validate = from "serverless-request-validator/ts";
 
 // GET, POST and PUT are allowed
 export default Validate({
@@ -119,7 +119,7 @@ It is possible to use the `sendFile()` method available
 
 ```ts
 // /api/index.ts
-import { Validate } = from "serverless-request-validator/ts";
+import Validate = from "serverless-request-validator/ts";
 
 // GET, POST and PUT are allowed
 export default Validate.get((req,res)=>{

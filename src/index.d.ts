@@ -1,6 +1,5 @@
 import { NowRequest, NowResponse } from "@vercel/node";
-
-interface ValidateRequest extends NowRequest {}
+interface ValidateRequest extends NowRequest { }
 
 interface ValidateResponse<T> extends NowResponse {
   sendStatus?: (code?: number, message?: string) => void;
@@ -64,4 +63,4 @@ export interface IValidatorProps {
 
 /** Specify callbacks for different methods made to an endpoint */
 type ValidateType = (handlers: IValidatorProps) => Function;
-interface IValidate extends IValidator, ValidateType {}
+interface IValidate extends IValidator, ValidateType { }
