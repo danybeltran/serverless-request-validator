@@ -119,7 +119,7 @@ It is possible to use the `sendFile()` method available
 
 ```ts
 // /api/index.ts
-import Validate = from "serverless-request-validator/ts";
+import Validate = from "serverless-request-validator";
 
 // GET, POST and PUT are allowed
 export default Validate.get((req,res)=>{
