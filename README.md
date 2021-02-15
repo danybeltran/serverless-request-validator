@@ -17,13 +17,13 @@ yarn add serverless-request-validator
 If you are using Javascript:
 
 ```js
-const { Validate } = require("serverless-request-validator");
+const Validate = require("serverless-request-validator");
 ```
 
 With Typescript:
 
 ```ts
-import { Validate } from "serverless-request-validator";
+import Validate from "serverless-request-validator";
 ```
 
 <br/>
