@@ -5,7 +5,6 @@ import {
 } from "../src";
 import { lookup } from "mime-types";
 import fs from "fs";
-import path from "path";
 export const RequestMethods = [
   "get",
   "post",
@@ -30,16 +29,19 @@ export const Validate: IValidate = (handlers) => {
         res.status(code).send(message);
       },
       sendFile: (url = "") => {
-        const pth = path.join(__dirname, `../${url}`);
-        const fileHeadType = lookup(pth);
-        if (fileHeadType) {
-          res.writeHead(200, {
-            "Content-Type": fileHeadType.toString(),
-          });
-          const rs = fs.createReadStream(pth);
-          rs.pipe(res);
-        } else {
-          res.status(404).send("Not found");
+        try {
+          const fileHeadType = lookup(url);
+          if (typeof fileHeadType === "string") {
+            res.writeHead(200, {
+              "Content-Type": fileHeadType.toString(),
+            });
+            const rs = fs.createReadStream(url);
+            rs.pipe(res);
+          } else {
+            res.status(404).send("File not found");
+          }
+        } catch (err) {
+          throw err;
         }
       },
     } as ValidateResponse<any>;
@@ -72,16 +74,19 @@ RequestMethods.forEach((requestMethod) => {
           res.status(code).send(message);
         },
         sendFile: (url = "") => {
-          const pth = path.join(__dirname, `../${url}`);
-          const fileHeadType = lookup(pth);
-          if (fileHeadType) {
-            res.writeHead(200, {
-              "Content-Type": fileHeadType.toString(),
-            });
-            const rs = fs.createReadStream(pth);
-            rs.pipe(res);
-          } else {
-            res.status(404).send("Not found");
+          try {
+            const fileHeadType = lookup(url);
+            if (typeof fileHeadType === "string") {
+              res.writeHead(200, {
+                "Content-Type": fileHeadType.toString(),
+              });
+              const rs = fs.createReadStream(url);
+              rs.pipe(res);
+            } else {
+              res.status(404).send("File not found");
+            }
+          } catch (err) {
+            throw err;
           }
         },
       } as ValidateResponse<any>;

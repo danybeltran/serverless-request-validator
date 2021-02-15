@@ -1,4 +1,4 @@
-const RequestMethods = [
+export const RequestMethods = [
   "get",
   "post",
   "put",
@@ -9,13 +9,12 @@ const RequestMethods = [
   "trace",
   "patch",
 ];
-const { lookup } = require("mime-types");
-const fs = require("fs");
-const path = require("path");
+import { lookup } from "mime-types";
+import fs from "fs";
 /**
  * @type { import("./src/index").IValidate }
  */
-const Validate = (handlers) => {
+export const Validate = (handlers) => {
   /**
    * @type { import("./src").RequestValidatorHandlerType }
    */
@@ -30,16 +29,19 @@ const Validate = (handlers) => {
         res.status(code).send(message);
       },
       sendFile: (url = "") => {
-        const pth = path.join(__dirname, `../${url}`);
-        const fileHeadType = lookup(pth);
-        if (fileHeadType) {
-          res.writeHead(200, {
-            "Content-Type": fileHeadType.toString(),
-          });
-          const rs = fs.createReadStream(pth);
-          rs.pipe(res);
-        } else {
-          res.status(404).send("Not found");
+        try {
+          const fileHeadType = lookup(url);
+          if (typeof fileHeadType === "string") {
+            res.writeHead(200, {
+              "Content-Type": fileHeadType.toString(),
+            });
+            const rs = fs.createReadStream(url);
+            rs.pipe(res);
+          } else {
+            res.status(404).send("File not found");
+          }
+        } catch (err) {
+          throw err;
         }
       },
     };
@@ -83,16 +85,19 @@ RequestMethods.forEach((requestMethod) => {
           res.status(code).send(message);
         },
         sendFile: (url = "") => {
-          const pth = path.join(__dirname, `../${url}`);
-          const fileHeadType = lookup(pth);
-          if (fileHeadType) {
-            res.writeHead(200, {
-              "Content-Type": fileHeadType.toString(),
-            });
-            const rs = fs.createReadStream(pth);
-            rs.pipe(res);
-          } else {
-            res.status(404).send("Not found");
+          try {
+            const fileHeadType = lookup(url);
+            if (typeof fileHeadType === "string") {
+              res.writeHead(200, {
+                "Content-Type": fileHeadType.toString(),
+              });
+              const rs = fs.createReadStream(url);
+              rs.pipe(res);
+            } else {
+              res.status(404).send("File not found");
+            }
+          } catch (err) {
+            throw err;
           }
         },
       };
@@ -106,6 +111,4 @@ RequestMethods.forEach((requestMethod) => {
   };
 });
 
-exports.RequestMethods = RequestMethods;
-exports.Validate = Validate;
-module.exports = { Validate };
+export default Validate;
