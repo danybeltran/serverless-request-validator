@@ -93,7 +93,7 @@ module.exports = Validate({
 
 ```ts
 // /api/index.ts
-import Validate from "serverless-request-validator/ts";
+import Validate from "serverless-request-validator";
 
 // GET, POST and PUT are allowed
 export default Validate({
