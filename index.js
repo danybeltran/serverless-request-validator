@@ -10,13 +10,12 @@ const RequestMethods = [
   "trace",
   "patch",
 ];
-const { Validate } = require("./src/index");
 const { lookup } = require("mime-types");
 const fs = require("fs");
 /**
  * @type { import("./src").IValidate }
  */
-Validate = (handlers) => {
+const Validate = (handlers) => {
   /**
    * @type { import("./src").RequestValidatorHandlerType }
    */
@@ -114,4 +113,4 @@ RequestMethods.forEach((requestMethod) => {
 });
 exports.RequestMethods = RequestMethods;
 exports.Validate = Validate;
-module.exports = Validate;
+module.exports = Validate
