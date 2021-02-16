@@ -10,19 +10,20 @@ const RequestMethods = [
   "trace",
   "patch",
 ];
+const { Validate } = require("./src/index");
 const { lookup } = require("mime-types");
 const fs = require("fs");
 /**
- * @type { import("serverless-request-validator/src").IValidate }
+ * @type { import("./src").IValidate }
  */
-const Validate = (handlers) => {
+Validate = (handlers) => {
   /**
-   * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
+   * @type { import("./src").RequestValidatorHandlerType }
    */
   const validateResponseCallback = function (req, res) {
     const _handlers = { ...handlers };
     /**
-     * @type { import("serverless-request-validator/src").ValidateResponse<any> }
+     * @type { import("./src").ValidateResponse<any> }
      */
     const vResponse = {
       ...res,
@@ -50,7 +51,7 @@ const Validate = (handlers) => {
       RequestMethods.forEach((requestMethod) => {
         if (!handlers[requestMethod]) {
           /**
-           * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
+           * @type { import("./src").RequestValidatorHandlerType }
            */
           const invalidMethodCb = (req, res) => {
             res
@@ -71,12 +72,12 @@ const Validate = (handlers) => {
 RequestMethods.forEach((requestMethod) => {
   Validate[requestMethod] = (
     /**
-     * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
+     * @type { import("./src").RequestValidatorHandlerType }
      */
     handler
   ) => {
     /**
-     * @type { import("serverless-request-validator/src").RequestValidatorHandlerType }
+     * @type { import("./src").RequestValidatorHandlerType }
      */
     const responseCb = (req, res) => {
       const { method } = req;

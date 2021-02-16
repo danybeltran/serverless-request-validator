@@ -5,7 +5,7 @@ interface ValidateResponse<T> extends NowResponse {
   sendStatus?: (code?: number, message?: string) => void;
   sendFile?: (url?: string) => void;
 }
-
+declare const Validate: IValidate
 /** Request handler */
 type RequestValidatorHandlerType = (
   /** Request object */
